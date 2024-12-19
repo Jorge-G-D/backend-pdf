@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario PDF</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario para enviar PDF</title>
 </head>
 <body>
-    <h1>Descargar PDF</h1>
-    <a href="/autorizacion_cambio_propiedad.pdf" download>Descargar el PDF</a>
+  <h1>Formulario para enviar PDF</h1>
+  <form action="/.netlify/functions/send_pdf" method="POST" enctype="multipart/form-data">
+    <label for="pdf">Selecciona tu archivo PDF:</label>
+    <input type="file" id="pdf" name="pdf" accept="application/pdf" required />
+    <button type="submit">Enviar PDF</button>
+  </form>
 </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subida de PDF</title>
+</head>
+<body>
+  <h1>Formulario para el trámite de cambio de propiedad</h1>
+
+  <!-- Sección para descargar el PDF de autorización -->
+  <section>
+    <h2>Descargar autorización</h2>
+    <p>
+      Descarga y completa el siguiente formulario PDF. Asegúrate de rellenarlo, firmarlo y guardarlo antes de subirlo.
+    </p>
+    <a href="/autorizacion_cambio_propiedad.pdf" download="autorizacion_cambio_propiedad.pdf">
+      Descargar PDF de autorización
+    </a>
+  </section>
+
+  <!-- Formulario de subida -->
+  <section>
+    <h2>Subir PDF rellenado</h2>
+    <form action="/.netlify/functions/send_pdf" method="post" enctype="multipart/form-data">
+      <label for="file">Subir PDF firmado:</label>
+      <input type="file" name="file" id="file" accept=".pdf" required />
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+</body>
+</html>

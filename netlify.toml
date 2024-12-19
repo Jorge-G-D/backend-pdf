@@ -1,0 +1,6 @@
+[functions]
+directory = "netlify/functions"
+
+[build]
+publish = "netlify"
+command = "echo 'No build required'"

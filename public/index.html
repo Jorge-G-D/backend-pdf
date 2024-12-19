@@ -1,16 +1,53 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario para enviar PDF</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir archivo PDF</title>
 </head>
 <body>
-  <h1>Formulario para enviar PDF</h1>
-  <form action="/.netlify/functions/send_pdf" method="POST" enctype="multipart/form-data">
-    <label for="pdf">Selecciona tu archivo PDF:</label>
-    <input type="file" id="pdf" name="pdf" accept="application/pdf" required />
-    <button type="submit">Enviar PDF</button>
-  </form>
+    <h1>Subir archivo PDF</h1>
+    <form id="uploadForm">
+        <label for="file">Selecciona un archivo PDF:</label>
+        <input type="file" id="file" accept="application/pdf" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <script>
+        const form = document.getElementById('uploadForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Por favor, selecciona un archivo.');
+                return;
+            }
+
+            // Convertir el archivo a base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64String = reader.result.split(',')[1]; // Extraer datos base64
+
+                // Enviar el archivo al backend
+                const response = await fetch('/.netlify/functions/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        filename: file.name,
+                        content: base64String
+                    })
+                });
+
+                const result = await response.json();
+                alert(result.message || 'Archivo enviado con éxito.');
+            };
+
+            reader.onerror = () => {
+                alert('Error al leer el archivo. Inténtalo de nuevo.');
+            };
+        });
+    </script>
 </body>
 </html>
